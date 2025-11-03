@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% block title %}Upcycled Store - ReStitch{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Upcycled Fashion Store</h1>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Discover unique, sustainable fashion pieces created from donated clothes</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Filters and Search -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+            <form method="GET" class="flex flex-col md:flex-row gap-4 items-center">
+                <!-- Search -->
+                <div class="flex-1">
+                    <input type="text" name="search" value="{{ search }}" 
+                           placeholder="Search products..." 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                </div>
+                
+                <!-- Sort -->
+                <div class="flex items-center space-x-4">
+                    <select name="sort" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                        <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest First</option>
+                        <option value="oldest" {% if sort_by == 'oldest' %}selected{% endif %}>Oldest First</option>
+                        <option value="price_low" {% if sort_by == 'price_low' %}selected{% endif %}>Price: Low to High</option>
+                        <option value="price_high" {% if sort_by == 'price_high' %}selected{% endif %}>Price: High to Low</option>
+                    </select>
+                    
+                    <button type="submit" class="btn-primary">Filter</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Products Grid -->
+        {% if products.items %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+                {% for product in products.items %}
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover group">
+                    <!-- Product Image -->
+                    <div class="relative overflow-hidden">
+                        {% set store_images = [
+                            'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                            'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                            'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                            'https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                            'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                            'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+                        ] %}
+                        <img src="{{ store_images[loop.index0 % 6] }}" alt="{{ product.title }}" 
+                             class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                                Upcycled
+                            </span>
+                        </div>
+                        {% if product.stock <= 5 %}
+                        <div class="absolute top-4 right-4">
+                            <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                                Only {{ product.stock }} left
+                            </span>
+                        </div>
+                        {% endif %}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="p-6">
+                        <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">{{ product.title }}</h3>
+                        
+                        {% if product.description %}
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ product.description[:100] }}...</p>
+                        {% endif %}
+                        
+                        <!-- Tags -->
+                        {% if product.get_tags() %}
+                            <div class="flex flex-wrap gap-1 mb-3">
+                                {% for tag in product.get_tags()[:3] %}
+                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        {{ tag }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Price and Actions -->
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-primary-600">₹{{ product.price }}</span>
+                                {% if product.stock <= 5 %}
+                                    <p class="text-xs text-orange-600">Only {{ product.stock }} left!</p>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <a href="{{ url_for('store.product_detail', slug=product.slug) }}" 
+                                   class="premium-view-btn">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                    View
+                                </a>
+                                
+                                {% if current_user.is_authenticated %}
+                                    {% if product.stock > 0 %}
+                                        <a href="{{ url_for('store.add_to_cart', product_id=product.id) }}" 
+                                           class="premium-cart-btn add-to-cart-btn" 
+                                           data-product-id="{{ product.id }}">
+                                            <svg class="cart-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6m0 0h15M17 21a2 2 0 100-4 2 2 0 000 4zM9 21a2 2 0 100-4 2 2 0 000 4z"></path>
+                                            </svg>
+                                            <span class="btn-text">Add to Cart</span>
+                                            <div class="btn-loading">
+                                                <div class="loading-spinner"></div>
+                                            </div>
+                                        </a>
+                                    {% else %}
+                                        <button disabled class="out-of-stock-btn">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728"></path>
+                                            </svg>
+                                            Out of Stock
+                                        </button>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{{ url_for('auth.login') }}" class="login-to-buy-btn">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        </svg>
+                                        Login to Buy
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Designer Info -->
+                        {% if product.designer %}
+                            <div class="mt-3 pt-3 border-t border-gray-100">
+                                <p class="text-xs text-gray-500">Designed by {{ product.designer.name }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if products.pages > 1 %}
+                <div class="flex justify-center">
+                    <nav class="flex items-center space-x-2">
+                        {% if products.has_prev %}
+                            <a href="{{ url_for('store.index', page=products.prev_num, search=search, sort=sort_by) }}" 
+                               class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                Previous
+                            </a>
+                        {% endif %}
+                        
+                        {% for page_num in products.iter_pages() %}
+                            {% if page_num %}
+                                {% if page_num != products.page %}
+                                    <a href="{{ url_for('store.index', page=page_num, search=search, sort=sort_by) }}" 
+                                       class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                        {{ page_num }}
+                                    </a>
+                                {% else %}
+                                    <span class="px-3 py-2 text-sm font-medium text-white bg-primary-600 border border-primary-600 rounded-md">
+                                        {{ page_num }}
+                                    </span>
+                                {% endif %}
+                            {% else %}
+                                <span class="px-3 py-2 text-sm font-medium text-gray-500">...</span>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if products.has_next %}
+                            <a href="{{ url_for('store.index', page=products.next_num, search=search, sort=sort_by) }}" 
+                               class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                Next
+                            </a>
+                        {% endif %}
+                    </nav>
+                </div>
+            {% endif %}
+        {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-16">
+                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                </svg>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">No products found</h3>
+                <p class="text-gray-600 mb-6">
+                    {% if search %}
+                        No products match your search "{{ search }}". Try different keywords.
+                    {% else %}
+                        Our upcycled collection is being updated. Check back soon!
+                    {% endif %}
+                </p>
+                {% if search %}
+                    <a href="{{ url_for('store.index') }}" class="btn-primary">View All Products</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add to cart with premium animation and error handling
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const productId = this.getAttribute('data-product-id');
+            
+            console.log('Adding product to cart:', productId);
+            
+            // Add loading state with premium animation
+            this.classList.add('loading');
+            this.style.pointerEvents = 'none';
+            
+            // Simulate loading and navigate
+            setTimeout(() => {
+                window.location.href = this.href;
+            }, 800);
+        });
+    });
+    
+    // View product functionality with error handling
+    document.querySelectorAll('a[href*="/store/"]').forEach(link => {
+        if (!link.classList.contains('add-to-cart-btn')) {
+            link.addEventListener('click', function(e) {
+                console.log('Navigating to product:', this.href);
+                // Allow normal navigation
+            });
+        }
+    });
+    
+    // Debug: Log all store links
+    console.log('Store links found:', document.querySelectorAll('a[href*="/store/"]').length);
+    console.log('Add to cart buttons found:', document.querySelectorAll('.add-to-cart-btn').length);
+</script>
+{% endblock %}

@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart - ReStitch{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Shopping Cart</h1>
+            <p class="text-gray-600">Review your sustainable fashion choices</p>
+        </div>
+
+        {% if cart_items %}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Cart Items -->
+            <div class="lg:col-span-2 space-y-6">
+                {% for item in cart_items %}
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center space-x-6">
+                        
+                        <!-- Product Image -->
+                        <div class="flex-shrink-0">
+                            {% set cart_images = [
+                                'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
+                                'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80',
+                                'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'
+                            ] %}
+                            <img src="{{ cart_images[loop.index0 % 3] }}" alt="{{ item.product.title }}" 
+                                 class="w-24 h-24 object-cover rounded-xl">
+                        </div>
+                        
+                        <!-- Product Info -->
+                        <div class="flex-1">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ item.product.title }}</h3>
+                            <p class="text-gray-600 text-sm mb-2">{{ item.product.description[:80] }}...</p>
+                            
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">Upcycled</span>
+                                {% if item.product.designer %}
+                                <span class="text-gray-500 text-sm">by {{ item.product.designer.name }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Quantity & Price -->
+                        <div class="text-right">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <button class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors">
+                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                    </svg>
+                                </button>
+                                <span class="font-medium text-gray-900">{{ item.quantity }}</span>
+                                <button class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors">
+                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <div class="text-xl font-bold text-primary-600 mb-2">₹{{ item.total }}</div>
+                            <div class="text-sm text-gray-500">₹{{ item.product.price }} each</div>
+                            
+                            <a href="{{ url_for('store.remove_from_cart', product_id=item.product.id) }}" 
+                               class="text-red-500 hover:text-red-700 text-sm font-medium mt-2 inline-block">
+                                Remove
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+                <!-- Continue Shopping -->
+                <div class="text-center py-6">
+                    <a href="{{ url_for('store.index') }}" 
+                       class="text-primary-600 hover:text-primary-700 font-medium inline-flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-8">
+                    <h2 class="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Subtotal ({{ cart_items|length }} items)</span>
+                            <span class="font-medium">₹{{ total }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Shipping</span>
+                            <span class="font-medium text-green-600">Free</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Tax</span>
+                            <span class="font-medium">₹{{ (total * 0.18)|int }}</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-4">
+                            <div class="flex justify-between">
+                                <span class="text-lg font-semibold text-gray-900">Total</span>
+                                <span class="text-lg font-bold text-primary-600">₹{{ (total * 1.18)|int }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Promo Code -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Promo Code</label>
+                        <div class="flex space-x-2">
+                            <input type="text" placeholder="Enter code" 
+                                   class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Checkout Button -->
+                    <a href="{{ url_for('store.checkout') }}" class="btn-primary w-full text-center text-lg block mb-4">
+                        <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        Proceed to Checkout
+                    </a>
+                    
+                    <!-- Security Features -->
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Secure SSL Encryption
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            30-Day Return Policy
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            Free Shipping on All Orders
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Impact Summary -->
+                <div class="bg-gradient-to-br from-green-500 to-blue-500 rounded-2xl shadow-lg p-6 mt-6 text-white">
+                    <h3 class="text-lg font-bold mb-4">Your Environmental Impact</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span>CO₂ Saved:</span>
+                            <span class="font-bold">{{ (cart_items|length * 2.5)|int }}kg</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Water Saved:</span>
+                            <span class="font-bold">{{ (cart_items|length * 1000)|int }}L</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Waste Diverted:</span>
+                            <span class="font-bold">{{ (cart_items|length * 0.8)|round(1) }}kg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% else %}
+        <!-- Empty Cart -->
+        <div class="text-center py-16">
+            <div class="max-w-md mx-auto">
+                <svg class="w-24 h-24 text-gray-400 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                </svg>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
+                <p class="text-gray-600 mb-8">Looks like you haven't added any sustainable fashion items to your cart yet.</p>
+                <a href="{{ url_for('store.index') }}" class="btn-primary text-lg">
+                    <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    Start Shopping
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Quantity update functionality
+document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', function() {
+        // Add quantity update logic here
+        console.log('Quantity update clicked');
+    });
+});
+
+// Promo code functionality
+document.querySelector('button[class*="Apply"]')?.addEventListener('click', function() {
+    const promoInput = this.previousElementSibling;
+    const promoCode = promoInput.value.trim();
+    
+    if (promoCode) {
+        // Add promo code validation logic here
+        console.log('Applying promo code:', promoCode);
+    }
+});
+</script>
+{% endblock %}

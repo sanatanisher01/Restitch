@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Pickup Requests - Admin{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Pickup Requests</h1>
+            <p class="text-gray-600">Manage scheduled pickups and convert to orders</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white rounded-lg shadow mb-6 p-4">
+            <form method="GET" class="flex items-center space-x-4">
+                <select name="status" class="px-3 py-2 border border-gray-300 rounded-md">
+                    <option value="">All Status</option>
+                    <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="scheduled" {% if status_filter == 'scheduled' %}selected{% endif %}>Scheduled</option>
+                    <option value="picked_up" {% if status_filter == 'picked_up' %}selected{% endif %}>Picked Up</option>
+                    <option value="completed" {% if status_filter == 'completed' %}selected{% endif %}>Completed</option>
+                </select>
+                <button type="submit" class="btn-primary">Filter</button>
+            </form>
+        </div>
+
+        <!-- Pickups Table -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-md">
+            <ul class="divide-y divide-gray-200">
+                {% for pickup in pickups.items %}
+                <li class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm font-medium text-indigo-600 truncate">
+                                    Pickup #{{ pickup.id }}
+                                </p>
+                                <div class="ml-2 flex-shrink-0 flex">
+                                    <p class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                       {% if pickup.status == 'pending' %}bg-yellow-100 text-yellow-800
+                                       {% elif pickup.status == 'scheduled' %}bg-blue-100 text-blue-800
+                                       {% elif pickup.status == 'picked_up' %}bg-green-100 text-green-800
+                                       {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                        {{ pickup.status.title() }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mt-2 sm:flex sm:justify-between">
+                                <div class="sm:flex">
+                                    <p class="flex items-center text-sm text-gray-500">
+                                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        {{ pickup.user.name }}
+                                    </p>
+                                    <p class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
+                                        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        {{ pickup.service_type.title() }}
+                                    </p>
+                                </div>
+                                <div class="mt-2 flex items-center text-sm text-gray-500 sm:mt-0">
+                                    <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <p>{{ pickup.preferred_slot.strftime('%b %d, %Y at %I:%M %p') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {% if pickup.status == 'pending' and pickup.service_type == 'donate' %}
+                        <div class="ml-4 flex space-x-2">
+                            <form method="POST" action="{{ url_for('admin.convert_pickup_to_order', pickup_id=pickup.id) }}" class="inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <input type="hidden" name="action" value="accept"/>
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+                                    Accept
+                                </button>
+                            </form>
+                            <button onclick="showRejectModal({{ pickup.id }})" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
+                                Reject
+                            </button>
+                        </div>
+                        {% elif pickup.status == 'pending' and pickup.service_type == 'resale' %}
+                        <div class="ml-4 flex space-x-2">
+                            <form method="POST" action="{{ url_for('admin.convert_pickup_to_order', pickup_id=pickup.id) }}" class="inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <input type="hidden" name="action" value="accept"/>
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+                                    Approve for Store
+                                </button>
+                            </form>
+                            <button onclick="showRejectModal({{ pickup.id }})" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
+                                Reject
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </li>
+                {% else %}
+                <li class="px-6 py-4 text-center text-gray-500">
+                    No pickup requests found.
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Pagination -->
+        {% if pickups.pages > 1 %}
+        <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 mt-6">
+            <div class="flex-1 flex justify-between sm:hidden">
+                {% if pickups.has_prev %}
+                <a href="{{ url_for('admin.pickups', page=pickups.prev_num, status=status_filter) }}" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Previous</a>
+                {% endif %}
+                {% if pickups.has_next %}
+                <a href="{{ url_for('admin.pickups', page=pickups.next_num, status=status_filter) }}" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Next</a>
+                {% endif %}
+            </div>
+            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm text-gray-700">
+                        Showing {{ pickups.per_page * (pickups.page - 1) + 1 }} to {{ pickups.per_page * pickups.page if pickups.page < pickups.pages else pickups.total }} of {{ pickups.total }} results
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div id="rejectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg p-6 w-96">
+            <h3 class="text-lg font-medium mb-4">Reject Pickup Request</h3>
+            <form id="rejectForm" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="action" value="reject"/>
+                <textarea name="message" placeholder="Reason for rejection..." class="w-full p-3 border rounded-md" rows="4" required></textarea>
+                <div class="flex justify-end space-x-2 mt-4">
+                    <button type="button" onclick="hideRejectModal()" class="px-4 py-2 text-gray-600 border rounded-md">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md">
+                        Reject Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function showRejectModal(pickupId) {
+    document.getElementById('rejectForm').action = `/admin/pickups/${pickupId}/convert-to-order`;
+    document.getElementById('rejectModal').classList.remove('hidden');
+}
+
+function hideRejectModal() {
+    document.getElementById('rejectModal').classList.add('hidden');
+}
+</script>
+{% endblock %}

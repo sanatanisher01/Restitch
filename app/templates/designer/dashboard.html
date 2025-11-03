@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}Designer Dashboard - ReStitch{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Designer Dashboard</h1>
+            <p class="text-gray-600">Welcome back, {{ current_user.name }}!</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">{{ stats.review }}</span>
+                            </div>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Review Orders</dt>
+                                <dd class="text-lg font-medium text-gray-900">{{ stats.review }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">{{ stats.in_progress }}</span>
+                            </div>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">In Progress</dt>
+                                <dd class="text-lg font-medium text-gray-900">{{ stats.in_progress }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">{{ stats.completed }}</span>
+                            </div>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Completed</dt>
+                                <dd class="text-lg font-medium text-gray-900">{{ stats.completed }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">{{ stats.total }}</span>
+                            </div>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Total Orders</dt>
+                                <dd class="text-lg font-medium text-gray-900">{{ stats.total }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Orders -->
+        {% if review_orders %}
+        <div class="bg-white shadow overflow-hidden sm:rounded-md mb-8">
+            <div class="px-4 py-5 sm:px-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Orders for Review</h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">New orders waiting for your review</p>
+            </div>
+            <ul class="divide-y divide-gray-200">
+                {% for order in review_orders %}
+                <li class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-indigo-600">Order #{{ order.id }}</p>
+                            <p class="text-sm text-gray-500">{{ order.user.name }} - {{ order.service_type.title() }}</p>
+                            <p class="text-xs text-gray-400">{{ order.created_at.strftime('%b %d, %Y') }}</p>
+                            {% if order.pickup_request %}
+                            <p class="text-xs text-gray-600">Items: {{ order.pickup_request.get_items() | join(', ') }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex space-x-2">
+                            <form method="POST" action="{{ url_for('designer.accept_order', order_id=order.id) }}" class="inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+                                    Accept
+                                </button>
+                            </form>
+                            <button onclick="showRejectModal({{ order.id }})" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
+                                Reject
+                            </button>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- In Progress Orders -->
+        {% if in_progress_orders %}
+        <div class="bg-white shadow overflow-hidden sm:rounded-md mb-8">
+            <div class="px-4 py-5 sm:px-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">In Progress Orders</h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">Orders you are currently working on</p>
+            </div>
+            <ul class="divide-y divide-gray-200">
+                {% for order in in_progress_orders %}
+                <li class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-indigo-600">Order #{{ order.id }}</p>
+                            <p class="text-sm text-gray-500">{{ order.user.name }} - {{ order.service_type.title() }}</p>
+                            <p class="text-xs text-gray-400">{{ order.created_at.strftime('%b %d, %Y') }}</p>
+                        </div>
+                        <form method="POST" action="{{ url_for('designer.complete_order', order_id=order.id) }}">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm">
+                                Mark Complete
+                            </button>
+                        </form>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div id="rejectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white rounded-lg p-6 w-96">
+            <h3 class="text-lg font-medium mb-4">Reject Order</h3>
+            <form id="rejectForm" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <textarea name="message" placeholder="Reason for rejection..." class="w-full p-3 border rounded-md" rows="4" required></textarea>
+                <div class="flex justify-end space-x-2 mt-4">
+                    <button type="button" onclick="hideRejectModal()" class="px-4 py-2 text-gray-600 border rounded-md">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md">
+                        Reject Order
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function showRejectModal(orderId) {
+    document.getElementById('rejectForm').action = `/designer/orders/${orderId}/reject`;
+    document.getElementById('rejectModal').classList.remove('hidden');
+}
+
+function hideRejectModal() {
+    document.getElementById('rejectModal').classList.add('hidden');
+}
+</script>
+{% endblock %}

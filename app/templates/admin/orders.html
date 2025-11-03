@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Orders - Admin - ReStitch{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Order Management</h1>
+                <p class="text-gray-600 mt-2">Manage redesign orders and track progress</p>
+            </div>
+            <a href="{{ url_for('admin.dashboard') }}" class="btn-secondary">
+                <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 mb-8">
+            <form method="GET" class="flex flex-col md:flex-row gap-4 items-end">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Filter by Status</label>
+                    <select name="status" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500">
+                        <option value="">All Statuses</option>
+                        <option value="received" {% if status_filter == 'received' %}selected{% endif %}>Received</option>
+                        <option value="sorting" {% if status_filter == 'sorting' %}selected{% endif %}>Sorting</option>
+                        <option value="designing" {% if status_filter == 'designing' %}selected{% endif %}>Designing</option>
+                        <option value="ready" {% if status_filter == 'ready' %}selected{% endif %}>Ready</option>
+                        <option value="shipped" {% if status_filter == 'shipped' %}selected{% endif %}>Shipped</option>
+                        <option value="delivered" {% if status_filter == 'delivered' %}selected{% endif %}>Delivered</option>
+                    </select>
+                </div>
+                
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Search Orders</label>
+                    <input type="text" placeholder="Search by order ID, customer name..." 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500">
+                </div>
+                
+                <button type="submit" class="btn-primary">
+                    <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    Filter
+                </button>
+            </form>
+        </div>
+
+        <!-- Orders Table -->
+        {% if orders.items %}
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Designer</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for order in orders.items %}
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center mr-3">
+                                        <span class="text-primary-600 font-semibold text-sm">#{{ order.id }}</span>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">Order #{{ order.id }}</div>
+                                        {% if order.barcode %}
+                                            <div class="text-xs text-gray-500">{{ order.barcode }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+                                        <span class="text-gray-600 font-medium text-xs">{{ order.user.name[0].upper() }}</span>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-gray-900">{{ order.user.name }}</div>
+                                        <div class="text-xs text-gray-500">{{ order.user.email }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+                                    {% if order.status == 'delivered' %}bg-green-100 text-green-800
+                                    {% elif order.status == 'ready' %}bg-blue-100 text-blue-800
+                                    {% elif order.status == 'designing' %}bg-yellow-100 text-yellow-800
+                                    {% elif order.status == 'sorting' %}bg-purple-100 text-purple-800
+                                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {{ order.status.replace('_', ' ').title() }}
+                                </span>
+                            </td>
+                            
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {% if order.designer %}
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mr-2">
+                                            <span class="text-purple-600 font-medium text-xs">{{ order.designer.name[0] }}</span>
+                                        </div>
+                                        <span class="text-sm text-gray-900">{{ order.designer.name }}</span>
+                                    </div>
+                                {% else %}
+                                    <span class="text-sm text-gray-500">Unassigned</span>
+                                {% endif %}
+                            </td>
+                            
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ order.created_at.strftime('%b %d, %Y') }}</div>
+                                <div class="text-xs text-gray-500">{{ order.created_at.strftime('%I:%M %p') }}</div>
+                            </td>
+                            
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <div class="flex items-center space-x-2">
+                                    <a href="{{ url_for('admin.order_detail', order_id=order.id) }}" 
+                                       class="text-primary-600 hover:text-primary-900 font-medium">
+                                        View
+                                    </a>
+                                    {% if order.status == 'complete' %}
+                                        <form method="POST" action="{{ url_for('admin.approve_order', order_id=order.id) }}" class="inline">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                            <button type="submit" class="text-green-600 hover:text-green-900 font-medium">Approve</button>
+                                        </form>
+                                    {% endif %}
+                                    {% if order.status == 'pending_approval' and order.service_type == 'resale' %}
+                                        <form method="POST" action="{{ url_for('admin.approve_for_store', order_id=order.id) }}" class="inline">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                            <button type="submit" class="text-blue-600 hover:text-blue-900 font-medium">Add to Store</button>
+                                        </form>
+                                    {% endif %}
+                                    {% if order.barcode %}
+                                    <a href="{{ url_for('api.track', barcode=order.barcode) }}" 
+                                       class="text-blue-600 hover:text-blue-900 font-medium" target="_blank">
+                                        Track
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        {% if orders.pages > 1 %}
+        <div class="flex justify-center mt-8">
+            <nav class="flex items-center space-x-2">
+                {% if orders.has_prev %}
+                    <a href="{{ url_for('admin.orders', page=orders.prev_num, status=status_filter) }}" 
+                       class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                        Previous
+                    </a>
+                {% endif %}
+                
+                {% for page_num in orders.iter_pages() %}
+                    {% if page_num %}
+                        {% if page_num != orders.page %}
+                            <a href="{{ url_for('admin.orders', page=page_num, status=status_filter) }}" 
+                               class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                {{ page_num }}
+                            </a>
+                        {% else %}
+                            <span class="px-3 py-2 text-sm font-medium text-white bg-primary-600 border border-primary-600 rounded-md">
+                                {{ page_num }}
+                            </span>
+                        {% endif %}
+                    {% else %}
+                        <span class="px-3 py-2 text-sm font-medium text-gray-500">...</span>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if orders.has_next %}
+                    <a href="{{ url_for('admin.orders', page=orders.next_num, status=status_filter) }}" 
+                       class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                        Next
+                    </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="bg-white rounded-2xl shadow-sm p-12 text-center">
+            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+            </svg>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No orders found</h3>
+            <p class="text-gray-600">
+                {% if status_filter %}
+                    No orders match the selected filter. Try changing the status filter.
+                {% else %}
+                    No orders have been placed yet.
+                {% endif %}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmation - ReStitch{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-sm p-8 text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">Order Confirmed!</h1>
+            <p class="text-gray-600 mb-8">Thank you for your purchase. Your order has been confirmed and will be processed soon.</p>
+            
+            <div class="bg-gray-50 rounded-xl p-6 mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Order Details</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                    <div>
+                        <p class="text-sm text-gray-600">Order Number</p>
+                        <p class="font-semibold text-lg text-primary-600">#{{ order.order_number }}</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-sm text-gray-600">Order Date</p>
+                        <p class="font-medium">{{ order.created_at.strftime('%B %d, %Y') }}</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-sm text-gray-600">Total Amount</p>
+                        <p class="font-semibold text-lg">₹{{ order.total_amount }}</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-sm text-gray-600">Status</p>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            {{ order.status.title() }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 rounded-xl p-6 mb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Order Items</h3>
+                <div class="space-y-4">
+                    {% for item in order.items %}
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gray-200 rounded-lg mr-4"></div>
+                            <div class="text-left">
+                                <p class="font-medium">{{ item.product.title }}</p>
+                                <p class="text-sm text-gray-600">Qty: {{ item.quantity }}</p>
+                            </div>
+                        </div>
+                        <p class="font-medium">₹{{ item.price * item.quantity }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{{ url_for('store.track_order', order_number=order.order_number) }}" class="btn-primary">
+                    <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                    Track Order
+                </a>
+                
+                <a href="{{ url_for('store.my_orders') }}" class="btn-secondary">
+                    View All Orders
+                </a>
+                
+                <a href="{{ url_for('store.index') }}" class="btn-secondary">
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

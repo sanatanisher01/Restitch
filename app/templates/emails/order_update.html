@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Order Update - ReStitch</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #2563eb;">ReStitch</h1>
+            <p style="color: #666;">Sustainable Fashion Platform</p>
+        </div>
+        
+        <h2>Hi {{ user.name }},</h2>
+        
+        <p>Your order has been updated!</p>
+        
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h3>Order Details:</h3>
+            <p><strong>Order ID:</strong> {{ order.barcode or "#" + order.id|string }}</p>
+            <p><strong>Status:</strong> {{ order.status.replace('_', ' ').title() }}</p>
+            {% if order.estimated_days %}
+            <p><strong>Estimated Completion:</strong> {{ order.estimated_days }} days</p>
+            {% endif %}
+        </div>
+        
+        {% if order.barcode %}
+        <p>Track your order: <a href="{{ url_for('api.track', barcode=order.barcode, _external=True) }}">{{ url_for('api.track', barcode=order.barcode, _external=True) }}</a></p>
+        {% endif %}
+        
+        <p>Thank you for choosing ReStitch!</p>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #666; font-size: 12px;">
+            <p>ReStitch - Give old clothes a new life 🌱</p>
+        </div>
+    </div>
+</body>
+</html>

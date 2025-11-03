@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80" 
+             alt="Sustainable Fashion" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="text-white fade-in">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    Give old clothes a <span class="text-gradient">new life</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed">
+                    Transform your unused clothes into beautiful, sustainable fashion with our expert designers and artisans.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6">
+                    <a href="{{ url_for('main.schedule_pickup') }}" class="btn-primary text-lg">
+                        <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 4v10m6-10v10m-6 0h6"></path>
+                        </svg>
+                        Schedule Pickup
+                    </a>
+                    <a href="{{ url_for('store.index') }}" class="btn-secondary text-lg">
+                        <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        Shop Upcycled
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hidden lg:block">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" 
+                         alt="Upcycled Fashion" class="rounded-2xl shadow-2xl floating">
+                    <div class="absolute -bottom-6 -right-6 bg-white rounded-xl p-4 shadow-xl">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600">2.5kg</div>
+                            <div class="text-sm text-gray-600">CO₂ Saved</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Floating Elements -->
+    <div class="absolute top-20 left-10 w-20 h-20 bg-yellow-300 rounded-full opacity-20 floating"></div>
+    <div class="absolute bottom-20 right-10 w-16 h-16 bg-pink-300 rounded-full opacity-20 floating" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/2 right-20 w-12 h-12 bg-blue-300 rounded-full opacity-20 floating" style="animation-delay: 2s;"></div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="card-hover p-6">
+                <div class="text-3xl md:text-4xl font-bold text-primary-600 mb-2" data-counter="{{ stats.users }}">0</div>
+                <div class="text-gray-600">Happy Customers</div>
+            </div>
+            <div class="card-hover p-6">
+                <div class="text-3xl md:text-4xl font-bold text-green-600 mb-2" data-counter="{{ stats.kg_saved|int }}">0</div>
+                <div class="text-gray-600">Kg Clothes Saved</div>
+            </div>
+            <div class="card-hover p-6">
+                <div class="text-3xl md:text-4xl font-bold text-purple-600 mb-2" data-counter="{{ stats.orders }}">0</div>
+                <div class="text-gray-600">Items Redesigned</div>
+            </div>
+            <div class="card-hover p-6">
+                <div class="text-3xl md:text-4xl font-bold text-orange-600 mb-2" data-counter="{{ (stats.orders * 0.1)|int }}">0</div>
+                <div class="text-gray-600">Trees Saved</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Preview -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How ReStitch Works</h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Simple steps to transform your old clothes into beautiful, sustainable fashion</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+            <!-- Step 1 -->
+            <div class="text-center card-hover p-6 bg-white rounded-xl shadow-sm">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 4v10m6-10v10m-6 0h6"></path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Schedule Pickup</h3>
+                <p class="text-sm text-gray-600">Book a convenient time for us to collect your clothes</p>
+            </div>
+            
+            <!-- Arrow -->
+            <div class="hidden md:flex items-center justify-center">
+                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="text-center card-hover p-6 bg-white rounded-xl shadow-sm">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Sorting & Design</h3>
+                <p class="text-sm text-gray-600">Our experts sort and design your transformation</p>
+            </div>
+            
+            <!-- Arrow -->
+            <div class="hidden md:flex items-center justify-center">
+                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="text-center card-hover p-6 bg-white rounded-xl shadow-sm">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">New Life</h3>
+                <p class="text-sm text-gray-600">Receive your beautifully redesigned clothes</p>
+            </div>
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{{ url_for('main.how_it_works') }}" class="btn-primary text-lg px-8 py-3">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+{% if featured_products %}
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Featured Upcycled Items</h2>
+            <p class="text-xl text-gray-600">Discover unique pieces created from donated clothes</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for product in featured_products %}
+            <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden group">
+                <div class="relative overflow-hidden">
+                    {% set product_images = [
+                        'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+                        'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+                    ] %}
+                    <img src="{{ product_images[loop.index0 % 3] }}" alt="{{ product.title }}" 
+                         class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                            Upcycled
+                        </span>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                <div class="p-6">
+                    <h3 class="font-bold text-xl text-gray-900 mb-2">{{ product.title }}</h3>
+                    <p class="text-gray-600 mb-4 line-clamp-2">{{ product.description[:100] }}...</p>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-3xl font-bold text-primary-600">₹{{ product.price }}</span>
+                            <div class="text-sm text-gray-500">Free Shipping</div>
+                        </div>
+                        <a href="{{ url_for('store.product_detail', slug=product.slug) }}" 
+                           class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{{ url_for('store.index') }}" class="btn-secondary text-lg px-8 py-3">View All Products</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-primary-600 to-secondary-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Make a Difference?</h2>
+        <p class="text-xl mb-8 text-gray-100">Join thousands of customers who are already making fashion more sustainable</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{{ url_for('main.schedule_pickup') }}" class="bg-white text-primary-600 hover:bg-gray-100 font-semibold py-4 px-8 rounded-lg text-lg transition-all duration-200">
+                Schedule Your First Pickup
+            </a>
+            <a href="{{ url_for('auth.register') }}" class="border-2 border-white text-white hover:bg-white hover:text-primary-600 font-semibold py-4 px-8 rounded-lg text-lg transition-all duration-200">
+                Create Account
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add fade-in animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const heroTitle = document.querySelector('.animate-fade-in');
+        if (heroTitle) {
+            heroTitle.style.opacity = '0';
+            heroTitle.style.transform = 'translateY(30px)';
+            setTimeout(() => {
+                heroTitle.style.transition = 'all 1s ease-out';
+                heroTitle.style.opacity = '1';
+                heroTitle.style.transform = 'translateY(0)';
+            }, 300);
+        }
+    });
+</script>
+{% endblock %}

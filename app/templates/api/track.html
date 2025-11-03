@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}Track Order {{ order.barcode }} - ReStitch{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Order Tracking</h1>
+            <div class="inline-flex items-center bg-white rounded-lg shadow-sm px-6 py-3">
+                <svg class="w-6 h-6 text-primary-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span class="text-xl font-semibold text-gray-900">{{ order.barcode }}</span>
+            </div>
+        </div>
+        
+        <!-- Order Info Card -->
+        <div class="bg-white rounded-xl shadow-sm p-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-primary-600 mb-2">Order #{{ order.id }}</div>
+                    <div class="text-gray-600">Order Number</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-600 mb-2">{{ order.created_at.strftime('%b %d, %Y') }}</div>
+                    <div class="text-gray-600">Order Date</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-purple-600 mb-2">
+                        {% if order.estimated_days %}{{ order.estimated_days }} days{% else %}TBD{% endif %}
+                    </div>
+                    <div class="text-gray-600">Estimated Time</div>
+                </div>
+            </div>
+            
+            {% if order.fabric_type %}
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <div class="flex items-center justify-center">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                        {{ order.fabric_type }}
+                    </span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Status Timeline -->
+        <div class="bg-white rounded-xl shadow-sm p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">Order Progress</h2>
+            
+            <div class="relative">
+                <!-- Progress Line -->
+                <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200"></div>
+                
+                <div class="space-y-8">
+                    {% for status in status_timeline %}
+                    <div class="relative flex items-center">
+                        <!-- Status Dot -->
+                        <div class="relative z-10 w-16 h-16 rounded-full flex items-center justify-center
+                            {% if status.completed %}bg-green-500 text-white{% else %}bg-gray-200 text-gray-500{% endif %}">
+                            {% if status.completed %}
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            {% else %}
+                                <div class="w-4 h-4 rounded-full bg-current"></div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Status Content -->
+                        <div class="ml-8 flex-1">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold {% if status.completed %}text-gray-900{% else %}text-gray-500{% endif %}">
+                                    {{ status.label }}
+                                </h3>
+                                {% if status.completed and order.status == status.status %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Current
+                                    </span>
+                                {% endif %}
+                            </div>
+                            
+                            {% if status.status == 'received' and status.completed %}
+                                <p class="text-gray-600 mt-1">Your clothes have been received and catalogued</p>
+                            {% elif status.status == 'sorting' and status.completed %}
+                                <p class="text-gray-600 mt-1">Items are being sorted and assessed for redesign potential</p>
+                            {% elif status.status == 'designing' and status.completed %}
+                                <p class="text-gray-600 mt-1">Our designers are working on your transformation</p>
+                            {% elif status.status == 'ready' and status.completed %}
+                                <p class="text-gray-600 mt-1">Your redesigned items are ready for delivery</p>
+                            {% elif status.status == 'shipped' and status.completed %}
+                                <p class="text-gray-600 mt-1">Your order is on its way to you</p>
+                            {% elif status.status == 'delivered' and status.completed %}
+                                <p class="text-gray-600 mt-1">Order delivered successfully</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Before/After Images -->
+        {% if order.get_images_before() or order.get_images_after() %}
+        <div class="bg-white rounded-xl shadow-sm p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Transformation Gallery</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {% if order.get_images_before() %}
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Before</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        {% for image in order.get_images_before() %}
+                        <img src="{{ image }}" alt="Before transformation" class="w-full h-32 object-cover rounded-lg">
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if order.get_images_after() %}
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">After</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        {% for image in order.get_images_after() %}
+                        <img src="{{ image }}" alt="After transformation" class="w-full h-32 object-cover rounded-lg">
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Video Documentation -->
+        {% if order.video_url %}
+        <div class="bg-white rounded-xl shadow-sm p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Transformation Process</h2>
+            <div class="aspect-w-16 aspect-h-9">
+                <video controls class="w-full rounded-lg">
+                    <source src="{{ order.video_url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Designer Notes -->
+        {% if order.notes %}
+        <div class="bg-white rounded-xl shadow-sm p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Designer Notes</h2>
+            <div class="bg-gray-50 rounded-lg p-6">
+                <p class="text-gray-700 leading-relaxed">{{ order.notes }}</p>
+                {% if order.designer %}
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-600">— {{ order.designer.name }}</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Impact Metrics -->
+        <div class="bg-gradient-to-r from-green-500 to-blue-500 rounded-xl shadow-sm p-8 text-white text-center">
+            <h2 class="text-2xl font-bold mb-6">Your Environmental Impact</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <div class="text-3xl font-bold mb-2">2.5kg</div>
+                    <div class="text-green-100">Clothes Saved</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold mb-2">1000L</div>
+                    <div class="text-green-100">Water Saved</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold mb-2">5kg</div>
+                    <div class="text-green-100">CO₂ Reduced</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

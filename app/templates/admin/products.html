@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Products - Admin - ReStitch{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">Product Management</h1>
+                <p class="text-gray-600 mt-2">Manage your upcycled product catalog</p>
+            </div>
+            <div class="flex space-x-4">
+                <a href="{{ url_for('admin.new_product') }}" class="btn-primary">
+                    <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Add Product
+                </a>
+                <a href="{{ url_for('admin.dashboard') }}" class="btn-secondary">Back to Dashboard</a>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        {% if products.items %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {% for product in products.items %}
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                <div class="relative">
+                    {% set admin_images = [
+                        'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                        'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                        'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                    ] %}
+                    <img src="{{ admin_images[loop.index0 % 3] }}" alt="{{ product.title }}" 
+                         class="w-full h-48 object-cover">
+                    
+                    {% if product.is_featured %}
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-medium">Featured</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                            Stock: {{ product.stock }}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="font-bold text-lg text-gray-900 mb-2">{{ product.title }}</h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ product.description[:80] }}...</p>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl font-bold text-primary-600">₹{{ product.price }}</span>
+                        <span class="text-sm text-gray-500">{{ product.created_at.strftime('%b %d, %Y') }}</span>
+                    </div>
+                    
+                    {% if product.designer %}
+                    <div class="flex items-center mb-4">
+                        <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mr-2">
+                            <span class="text-purple-600 font-medium text-xs">{{ product.designer.name[0] }}</span>
+                        </div>
+                        <span class="text-sm text-gray-600">{{ product.designer.name }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="flex space-x-2">
+                        <a href="{{ url_for('store.product_detail', slug=product.slug) }}" 
+                           class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-center py-2 px-4 rounded-lg font-medium transition-colors" target="_blank">
+                            View
+                        </a>
+                        <a href="{{ url_for('admin.edit_product', product_id=product.id) }}" 
+                           class="flex-1 btn-primary text-center py-2 px-4">
+                            Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if products.pages > 1 %}
+        <div class="flex justify-center">
+            <nav class="flex items-center space-x-2">
+                {% if products.has_prev %}
+                    <a href="{{ url_for('admin.products', page=products.prev_num) }}" 
+                       class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                        Previous
+                    </a>
+                {% endif %}
+                
+                {% for page_num in products.iter_pages() %}
+                    {% if page_num %}
+                        {% if page_num != products.page %}
+                            <a href="{{ url_for('admin.products', page=page_num) }}" 
+                               class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                {{ page_num }}
+                            </a>
+                        {% else %}
+                            <span class="px-3 py-2 text-sm font-medium text-white bg-primary-600 border border-primary-600 rounded-md">
+                                {{ page_num }}
+                            </span>
+                        {% endif %}
+                    {% else %}
+                        <span class="px-3 py-2 text-sm font-medium text-gray-500">...</span>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if products.has_next %}
+                    <a href="{{ url_for('admin.products', page=products.next_num) }}" 
+                       class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                        Next
+                    </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="bg-white rounded-2xl shadow-sm p-12 text-center">
+            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+            </svg>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No products yet</h3>
+            <p class="text-gray-600 mb-6">Start by adding your first upcycled product to the catalog</p>
+            <a href="{{ url_for('admin.new_product') }}" class="btn-primary">Add First Product</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
