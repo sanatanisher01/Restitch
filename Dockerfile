@@ -16,8 +16,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Create uploads directory
-RUN mkdir -p uploads
+# Create uploads directory and make scripts executable
+RUN mkdir -p uploads && \
+    chmod +x entrypoint.sh deploy.sh
 
 # Set environment variables
 ENV FLASK_APP=restitch.py
@@ -30,5 +31,6 @@ EXPOSE 5000
 RUN useradd -m -u 1000 restitch && chown -R restitch:restitch /app
 USER restitch
 
-# Run the application
+# Use entrypoint script
+ENTRYPOINT ["./entrypoint.sh"]
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "restitch:app"]

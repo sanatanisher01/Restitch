@@ -1,1 +1,1 @@
-web: gunicorn restitch:app
+web: python startup.py && gunicorn restitch:app

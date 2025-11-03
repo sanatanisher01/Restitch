@@ -7,9 +7,17 @@ def seed_database():
     app = create_app()
     
     with app.app_context():
-        # Drop and create all tables
-        db.drop_all()
-        db.create_all()
+        # Check if we're in development or if database is empty
+        import os
+        is_production = os.environ.get('FLASK_ENV') == 'production'
+        
+        if not is_production:
+            # Drop and create all tables in development
+            db.drop_all()
+            db.create_all()
+        else:
+            # In production, only create tables if they don't exist
+            db.create_all()
         
         # Create admin user
         admin = User(
