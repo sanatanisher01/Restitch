@@ -1,1 +1,1 @@
-web: python startup.py && gunicorn restitch:app
+web: python direct_product_update.py && gunicorn restitch:app
