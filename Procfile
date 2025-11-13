@@ -1,1 +1,1 @@
-web: python rebuild_store.py && gunicorn restitch:app
+web: python production_setup.py && gunicorn restitch:app

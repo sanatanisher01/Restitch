@@ -11,7 +11,7 @@ def rebuild_store():
     app = create_app()
     
     with app.app_context():
-        print("=== REBUILDING STORE ===")
+        print("=== FORCE REBUILDING STORE ===")
         
         # Get or create designer
         designer = User.query.filter_by(email='designer@restitch.com').first()
@@ -28,10 +28,15 @@ def rebuild_store():
             db.session.commit()
             print("Created designer user")
         
-        # Delete ALL products
-        Product.query.delete()
-        db.session.commit()
-        print("Cleared all products")
+        # FORCE Delete ALL products - no conditions
+        try:
+            deleted_count = Product.query.count()
+            Product.query.delete()
+            db.session.commit()
+            print(f"FORCE DELETED {deleted_count} products")
+        except Exception as e:
+            print(f"Error deleting products: {e}")
+            db.session.rollback()
         
         # Create new products
         products = [
@@ -137,31 +142,49 @@ def rebuild_store():
             }
         ]
         
-        # Add products
+        # Add products with error handling
+        added_count = 0
         for i, p in enumerate(products, 1):
-            product = Product(
-                title=p['title'],
-                slug=p['slug'],
-                description=p['description'],
-                price=p['price'],
-                stock=p['stock'],
-                designer_id=designer.id,
-                tags=p['tags'],
-                is_featured=p['is_featured'],
-                images=json.dumps([p['image']])
-            )
-            db.session.add(product)
-            print(f"Added: {p['title']}")
+            try:
+                product = Product(
+                    title=p['title'],
+                    slug=p['slug'],
+                    description=p['description'],
+                    price=p['price'],
+                    stock=p['stock'],
+                    designer_id=designer.id,
+                    tags=p['tags'],
+                    is_featured=p['is_featured'],
+                    images=json.dumps([p['image']])
+                )
+                db.session.add(product)
+                added_count += 1
+                print(f"Added {added_count}: {p['title']}")
+            except Exception as e:
+                print(f"Error adding {p['title']}: {e}")
         
-        db.session.commit()
+        try:
+            db.session.commit()
+            print(f"COMMITTED {added_count} products to database")
+        except Exception as e:
+            print(f"Error committing: {e}")
+            db.session.rollback()
         
-        # Verify
-        count = Product.query.count()
-        print(f"=== REBUILD COMPLETE: {count} products ===")
-        
-        for product in Product.query.all():
-            images = json.loads(product.images) if product.images else []
-            print(f"- {product.title}: {images[0] if images else 'NO IMAGE'}")
+        # Verify final state
+        try:
+            count = Product.query.count()
+            print(f"=== FINAL COUNT: {count} products ===")
+            
+            for product in Product.query.all():
+                images = json.loads(product.images) if product.images else []
+                print(f"- {product.title}: {images[0] if images else 'NO IMAGE'}")
+        except Exception as e:
+            print(f"Error verifying: {e}")
 
 if __name__ == '__main__':
-    rebuild_store()
+    try:
+        rebuild_store()
+    except Exception as e:
+        print(f"REBUILD FAILED: {e}")
+        import traceback
+        traceback.print_exc()
