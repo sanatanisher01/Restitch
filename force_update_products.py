@@ -1,34 +1,43 @@
 #!/usr/bin/env python3
 """
-Script to update products in the ReStitch database
-Replaces existing products with new patchwork collection
+Force update products in production
+This script will run during deployment to update products
 """
 
+import os
 from app import create_app, db
 from app.models import Product, User
 
-def update_products():
+def force_update_products():
     app = create_app()
     
     with app.app_context():
         try:
+            # Check if we need to update products (look for old product titles)
+            old_products = Product.query.filter(
+                Product.title.in_([
+                    'Upcycled Denim Jacket',
+                    'Vintage Cotton Dress', 
+                    'Patchwork Tote Bag',
+                    'Redesigned Silk Scarf',
+                    'Upcycled Wool Sweater',
+                    'Denim Patchwork Skirt'
+                ])
+            ).count()
+            
+            if old_products == 0:
+                print("Products already updated, skipping...")
+                return
+                
+            print(f"Found {old_products} old products, updating...")
+            
             # Get designer user
             designer = User.query.filter_by(role='designer').first()
             if not designer:
-                print("No designer found, creating one...")
-                designer = User(
-                    email='designer@restitch.com',
-                    name='Sarah Designer',
-                    phone='+91-9876543211',
-                    role='designer',
-                    points=500
-                )
-                designer.set_password('designer123')
-                db.session.add(designer)
-                db.session.commit()
+                print("No designer found, skipping product update...")
+                return
             
             # Clear existing products
-            print("Removing existing products...")
             Product.query.delete()
             db.session.commit()
             
@@ -137,7 +146,6 @@ def update_products():
             ]
             
             # Create new products
-            print("Adding new patchwork products...")
             for product_data in products_data:
                 product = Product(
                     title=product_data['title'],
@@ -161,4 +169,4 @@ def update_products():
             print(f"Error updating products: {e}")
 
 if __name__ == '__main__':
-    update_products()
+    force_update_products()

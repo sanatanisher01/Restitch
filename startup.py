@@ -31,6 +31,9 @@ def initialize_database():
                 print("Database seeded successfully")
             else:
                 print(f"Database already initialized with {user_count} users")
+                # Check and update products if needed
+                print("Checking if products need updating...")
+                exec(open('force_update_products.py').read())
                 
         except Exception as e:
             print(f"Database initialization error: {e}")
