@@ -47,14 +47,10 @@
                     <!-- Product Image -->
                     <div class="relative overflow-hidden">
                         {% set product_images = product.get_images() %}
-                        {% if product_images and product_images[0] %}
-                            <img src="{{ product_images[0] }}" alt="{{ product.title }}" 
-                                 class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
-                        {% else %}
-                            <!-- Fallback image if no product image -->
-                            <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="{{ product.title }}" 
-                                 class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
-                        {% endif %}
+                        <!-- Debug: {{ product_images }} -->
+                        <img src="{{ product_images[0] if product_images else 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' }}" 
+                             alt="{{ product.title }}" 
+                             class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500">
                         <div class="absolute top-4 left-4">
                             <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                                 Upcycled
