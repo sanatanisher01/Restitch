@@ -3,268 +3,435 @@
 {% block title %}How It Works - ReStitch{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="bg-gradient-to-br from-primary-600 to-secondary-600 text-white py-20">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-6">How ReStitch Works</h1>
-        <p class="text-xl text-gray-100">From your closet to beautiful upcycled fashion in simple steps</p>
-    </div>
-</section>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30">
+    
+    <!-- Premium Hero Section -->
+    <section class="relative overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald-900 via-teal-800 to-slate-900">
+            <div class="absolute inset-0 opacity-20">
+                <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+                <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+                <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+            </div>
+        </div>
+        
+        <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32 text-center">
+            <!-- Premium Badge -->
+            <div class="inline-flex items-center bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-6 py-3 mb-8 shadow-2xl">
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span class="text-emerald-100 font-bold text-sm tracking-wider uppercase">Step by Step Process</span>
+                </div>
+            </div>
+            
+            <!-- Hero Title -->
+            <h1 class="text-6xl lg:text-8xl font-black mb-8 leading-tight text-white drop-shadow-2xl">
+                How <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">ReStitch</span> Works
+            </h1>
+            
+            <!-- Subtitle -->
+            <p class="text-2xl lg:text-3xl text-emerald-100 max-w-4xl mx-auto mb-12 leading-relaxed font-light">
+                From your closet to <span class="text-white font-semibold">beautiful upcycled fashion</span> in five simple steps
+            </p>
+        </div>
+    </section>
 
-<!-- Process Timeline -->
-<section class="py-20 bg-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="relative">
-            <!-- Timeline Line -->
-            <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gray-200 hidden lg:block"></div>
+    <!-- Process Timeline -->
+    <section class="relative -mt-20 z-10 py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <!-- Step 1: Schedule Pickup -->
-            <div class="relative flex items-center mb-16 lg:mb-24">
-                <div class="lg:w-1/2 lg:pr-12">
-                    <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">1</div>
-                            <h3 class="text-2xl font-bold text-gray-900">Schedule Pickup</h3>
+            <div class="relative mb-32">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <!-- Content -->
+                    <div class="order-2 lg:order-1">
+                        <div class="bg-white/80 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/50 p-10">
+                            <div class="flex items-center mb-8">
+                                <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl mr-6 shadow-xl">1</div>
+                                <h3 class="text-4xl font-black text-gray-900">Schedule Pickup</h3>
+                            </div>
+                            
+                            <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                                Book a convenient time for our professional team to collect your unused clothes. 
+                                Simply select your preferred date, time, and service type through our easy booking system.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-emerald-50 rounded-2xl p-6 border border-emerald-200">
+                                    <div class="flex items-center mb-3">
+                                        <svg class="w-6 h-6 text-emerald-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="font-bold text-emerald-800">Free Doorstep Pickup</span>
+                                    </div>
+                                    <p class="text-emerald-700 text-sm">No cost, no hassle collection service</p>
+                                </div>
+                                
+                                <div class="bg-teal-50 rounded-2xl p-6 border border-teal-200">
+                                    <div class="flex items-center mb-3">
+                                        <svg class="w-6 h-6 text-teal-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="font-bold text-teal-800">Flexible Scheduling</span>
+                                    </div>
+                                    <p class="text-teal-700 text-sm">Choose from multiple time slots</p>
+                                </div>
+                                
+                                <div class="bg-cyan-50 rounded-2xl p-6 border border-cyan-200">
+                                    <div class="flex items-center mb-3">
+                                        <svg class="w-6 h-6 text-cyan-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="font-bold text-cyan-800">Multiple Options</span>
+                                    </div>
+                                    <p class="text-cyan-700 text-sm">Donate, Redesign, or Resale</p>
+                                </div>
+                                
+                                <div class="bg-purple-50 rounded-2xl p-6 border border-purple-200">
+                                    <div class="flex items-center mb-3">
+                                        <svg class="w-6 h-6 text-purple-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="font-bold text-purple-800">Instant Confirmation</span>
+                                    </div>
+                                    <p class="text-purple-700 text-sm">Immediate booking confirmation</p>
+                                </div>
+                            </div>
                         </div>
-                        <p class="text-gray-600 mb-6">Book a convenient time for our team to collect your unused clothes. Simply select your preferred date, time, and service type.</p>
-                        <ul class="space-y-2 text-gray-600">
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Free pickup from your doorstep
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Flexible time slots
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Choose: Donate, Redesign, or Resale
-                            </li>
-                        </ul>
                     </div>
-                </div>
-                
-                <!-- Timeline Dot -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-primary-600 rounded-full border-4 border-white shadow-lg hidden lg:block"></div>
-                
-                <!-- Image -->
-                <div class="lg:w-1/2 lg:pl-12 mt-8 lg:mt-0">
-                    <div class="bg-gradient-to-br from-primary-100 to-secondary-100 rounded-xl p-8 h-64 flex items-center justify-center">
-                        <svg class="w-24 h-24 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 4v10m6-10v10m-6 0h6"></path>
-                        </svg>
+                    
+                    <!-- Visual -->
+                    <div class="order-1 lg:order-2">
+                        <div class="relative bg-gradient-to-br from-emerald-100 to-teal-100 rounded-3xl p-12 shadow-2xl border border-emerald-200">
+                            <div class="text-center">
+                                <div class="w-32 h-32 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
+                                    <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 4v10m6-10v10m-6 0h6"></path>
+                                    </svg>
+                                </div>
+                                <h4 class="text-2xl font-black text-emerald-800 mb-2">Easy Booking</h4>
+                                <p class="text-emerald-700">Schedule in just 3 clicks</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Step 2: Collection & Sorting -->
-            <div class="relative flex items-center mb-16 lg:mb-24 flex-row-reverse">
-                <div class="lg:w-1/2 lg:pl-12">
-                    <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">2</div>
-                            <h3 class="text-2xl font-bold text-gray-900">Collection & Sorting</h3>
-                        </div>
-                        <p class="text-gray-600 mb-6">Our team collects your clothes and carefully sorts them based on fabric type, condition, and potential for transformation.</p>
-                        <ul class="space-y-2 text-gray-600">
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Professional quality assessment
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Fabric categorization
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Design potential evaluation
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Timeline Dot -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-green-600 rounded-full border-4 border-white shadow-lg hidden lg:block"></div>
-                
-                <!-- Image -->
-                <div class="lg:w-1/2 lg:pr-12 mt-8 lg:mt-0">
-                    <div class="bg-gradient-to-br from-green-100 to-blue-100 rounded-xl p-8 h-64 flex items-center justify-center">
-                        <svg class="w-24 h-24 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Step 3: Design & Transformation -->
-            <div class="relative flex items-center mb-16 lg:mb-24">
-                <div class="lg:w-1/2 lg:pr-12">
-                    <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">3</div>
-                            <h3 class="text-2xl font-bold text-gray-900">Design & Transformation</h3>
-                        </div>
-                        <p class="text-gray-600 mb-6">Our skilled designers and artisans work their magic, transforming your old clothes into beautiful, contemporary pieces.</p>
-                        <ul class="space-y-2 text-gray-600">
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Expert craftsmanship
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Modern design techniques
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Quality assurance
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Timeline Dot -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-purple-600 rounded-full border-4 border-white shadow-lg hidden lg:block"></div>
-                
-                <!-- Image -->
-                <div class="lg:w-1/2 lg:pl-12 mt-8 lg:mt-0">
-                    <div class="bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl p-8 h-64 flex items-center justify-center">
-                        <svg class="w-24 h-24 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Step 4: Quality Check & Packaging -->
-            <div class="relative flex items-center mb-16 lg:mb-24 flex-row-reverse">
-                <div class="lg:w-1/2 lg:pl-12">
-                    <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">4</div>
-                            <h3 class="text-2xl font-bold text-gray-900">Quality Check & Packaging</h3>
-                        </div>
-                        <p class="text-gray-600 mb-6">Every piece undergoes rigorous quality checks before being carefully packaged with sustainable materials.</p>
-                        <ul class="space-y-2 text-gray-600">
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Thorough quality inspection
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Eco-friendly packaging
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Unique barcode tracking
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Timeline Dot -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-orange-600 rounded-full border-4 border-white shadow-lg hidden lg:block"></div>
-                
-                <!-- Image -->
-                <div class="lg:w-1/2 lg:pr-12 mt-8 lg:mt-0">
-                    <div class="bg-gradient-to-br from-orange-100 to-yellow-100 rounded-xl p-8 h-64 flex items-center justify-center">
-                        <svg class="w-24 h-24 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Step 5: Delivery & Impact -->
-            <div class="relative flex items-center">
-                <div class="lg:w-1/2 lg:pr-12">
-                    <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">5</div>
-                            <h3 class="text-2xl font-bold text-gray-900">Delivery & Impact</h3>
-                        </div>
-                        <p class="text-gray-600 mb-6">Receive your transformed clothes and track your positive environmental impact through our dashboard.</p>
-                        <ul class="space-y-2 text-gray-600">
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Fast, secure delivery
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                Impact tracking dashboard
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                ReStitch reward points
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <!-- Timeline Dot -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-pink-600 rounded-full border-4 border-white shadow-lg hidden lg:block"></div>
-                
-                <!-- Image -->
-                <div class="lg:w-1/2 lg:pl-12 mt-8 lg:mt-0">
-                    <div class="bg-gradient-to-br from-pink-100 to-red-100 rounded-xl p-8 h-64 flex items-center justify-center">
-                        <svg class="w-24 h-24 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Impact Section -->
-<section class="py-20 bg-gray-50">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8">Your Impact Matters</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div class="bg-white rounded-xl p-6 shadow-sm">
-                <div class="text-3xl font-bold text-green-600 mb-2">2.5kg</div>
-                <div class="text-gray-600">Average clothes saved per order</div>
+            <!-- Step 2: Collection & Sorting -->
+            <div class="relative mb-32">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <!-- Visual -->
+                    <div class="relative bg-gradient-to-br from-teal-100 to-cyan-100 rounded-3xl p-12 shadow-2xl border border-teal-200">
+                        <div class="text-center">
+                            <div class="w-32 h-32 bg-gradient-to-br from-teal-500 to-teal-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
+                                <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h4 class="text-2xl font-black text-teal-800 mb-2">Expert Sorting</h4>
+                            <p class="text-teal-700">Professional quality assessment</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div>
+                        <div class="bg-white/80 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/50 p-10">
+                            <div class="flex items-center mb-8">
+                                <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl mr-6 shadow-xl">2</div>
+                                <h3 class="text-4xl font-black text-gray-900">Collection & Sorting</h3>
+                            </div>
+                            
+                            <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                                Our expert team collects your clothes and carefully sorts them based on fabric type, 
+                                condition, and transformation potential using advanced assessment techniques.
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center bg-teal-50 rounded-2xl p-4 border border-teal-200">
+                                    <div class="w-12 h-12 bg-teal-500 rounded-xl flex items-center justify-center mr-4">
+                                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-teal-800">Professional Assessment</h5>
+                                        <p class="text-teal-700 text-sm">Each item evaluated by fabric experts</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center bg-cyan-50 rounded-2xl p-4 border border-cyan-200">
+                                    <div class="w-12 h-12 bg-cyan-500 rounded-xl flex items-center justify-center mr-4">
+                                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-cyan-800">Smart Categorization</h5>
+                                        <p class="text-cyan-700 text-sm">Advanced fabric and design potential analysis</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center bg-purple-50 rounded-2xl p-4 border border-purple-200">
+                                    <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center mr-4">
+                                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-purple-800">Design Planning</h5>
+                                        <p class="text-purple-700 text-sm">Creative transformation roadmap creation</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="bg-white rounded-xl p-6 shadow-sm">
-                <div class="text-3xl font-bold text-blue-600 mb-2">70%</div>
-                <div class="text-gray-600">Reduction in carbon footprint</div>
+
+            <!-- Step 3: Design & Transformation -->
+            <div class="relative mb-32">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <!-- Content -->
+                    <div class="order-2 lg:order-1">
+                        <div class="bg-white/80 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/50 p-10">
+                            <div class="flex items-center mb-8">
+                                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl mr-6 shadow-xl">3</div>
+                                <h3 class="text-4xl font-black text-gray-900">Design & Transformation</h3>
+                            </div>
+                            
+                            <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                                Our skilled designers and artisans work their magic, transforming your old clothes 
+                                into beautiful, contemporary pieces using sustainable techniques and modern design principles.
+                            </p>
+                            
+                            <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-200 mb-6">
+                                <h5 class="font-black text-purple-800 mb-4 text-lg">Transformation Process:</h5>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-black text-purple-600">50+</div>
+                                        <div class="text-purple-700 text-sm">Expert Designers</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-black text-pink-600">100+</div>
+                                        <div class="text-pink-700 text-sm">Design Techniques</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-center text-purple-700">
+                                    <svg class="w-5 h-5 text-purple-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="font-semibold">Expert craftsmanship & attention to detail</span>
+                                </div>
+                                <div class="flex items-center text-purple-700">
+                                    <svg class="w-5 h-5 text-purple-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="font-semibold">Modern design techniques & trends</span>
+                                </div>
+                                <div class="flex items-center text-purple-700">
+                                    <svg class="w-5 h-5 text-purple-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="font-semibold">Rigorous quality assurance process</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Visual -->
+                    <div class="order-1 lg:order-2">
+                        <div class="relative bg-gradient-to-br from-purple-100 to-pink-100 rounded-3xl p-12 shadow-2xl border border-purple-200">
+                            <div class="text-center">
+                                <div class="w-32 h-32 bg-gradient-to-br from-purple-500 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
+                                    <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
+                                    </svg>
+                                </div>
+                                <h4 class="text-2xl font-black text-purple-800 mb-2">Creative Magic</h4>
+                                <p class="text-purple-700">Transforming old into extraordinary</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="bg-white rounded-xl p-6 shadow-sm">
-                <div class="text-3xl font-bold text-purple-600 mb-2">1000L</div>
-                <div class="text-gray-600">Water saved per redesign</div>
+
+            <!-- Step 4: Quality & Delivery -->
+            <div class="relative">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <!-- Visual -->
+                    <div class="relative bg-gradient-to-br from-orange-100 to-yellow-100 rounded-3xl p-12 shadow-2xl border border-orange-200">
+                        <div class="text-center">
+                            <div class="w-32 h-32 bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
+                                <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                </svg>
+                            </div>
+                            <h4 class="text-2xl font-black text-orange-800 mb-2">Perfect Delivery</h4>
+                            <p class="text-orange-700">Your new fashion awaits</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div>
+                        <div class="bg-white/80 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/50 p-10">
+                            <div class="flex items-center mb-8">
+                                <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl mr-6 shadow-xl">4</div>
+                                <h3 class="text-4xl font-black text-gray-900">Quality & Delivery</h3>
+                            </div>
+                            
+                            <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                                Every piece undergoes rigorous quality checks before being carefully packaged with 
+                                sustainable materials and delivered to your doorstep with love and care.
+                            </p>
+                            
+                            <div class="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-2xl p-6 border border-orange-200 mb-6">
+                                <h5 class="font-black text-orange-800 mb-4 text-lg">Your Impact Dashboard:</h5>
+                                <div class="grid grid-cols-3 gap-4 text-center">
+                                    <div>
+                                        <div class="text-2xl font-black text-orange-600">2.5kg</div>
+                                        <div class="text-orange-700 text-xs">CO₂ Saved</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-black text-yellow-600">1000L</div>
+                                        <div class="text-yellow-700 text-xs">Water Saved</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-black text-red-600">100pts</div>
+                                        <div class="text-red-700 text-xs">Reward Points</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-center text-orange-700">
+                                    <svg class="w-5 h-5 text-orange-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="font-semibold">Fast, secure delivery with tracking</span>
+                                </div>
+                                <div class="flex items-center text-orange-700">
+                                    <svg class="w-5 h-5 text-orange-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="font-semibold">Eco-friendly packaging materials</span>
+                                </div>
+                                <div class="flex items-center text-orange-700">
+                                    <svg class="w-5 h-5 text-orange-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="font-semibold">Personal impact tracking & rewards</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <a href="{{ url_for('main.schedule_pickup') }}" class="btn-primary text-lg px-8 py-4">Start Your Journey</a>
-    </div>
-</section>
+    </section>
+
+    <!-- Impact Statistics -->
+    <section class="py-32 bg-gradient-to-br from-gray-50 to-emerald-50/30">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-5xl lg:text-6xl font-black text-gray-900 mb-6">
+                Your <span class="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Impact</span> Matters
+            </h2>
+            <p class="text-2xl text-gray-600 max-w-4xl mx-auto mb-16 leading-relaxed">
+                Every piece you transform creates a positive ripple effect for our planet
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="bg-white/80 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/50 p-10 hover:scale-105 transition-transform duration-300">
+                    <div class="text-5xl font-black text-emerald-600 mb-4">2.5kg</div>
+                    <div class="text-xl font-bold text-gray-800 mb-2">Clothes Saved</div>
+                    <div class="text-gray-600">Average per transformation order</div>
+                </div>
+                
+                <div class="bg-white/80 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/50 p-10 hover:scale-105 transition-transform duration-300">
+                    <div class="text-5xl font-black text-teal-600 mb-4">70%</div>
+                    <div class="text-xl font-bold text-gray-800 mb-2">Carbon Reduction</div>
+                    <div class="text-gray-600">Compared to new clothing production</div>
+                </div>
+                
+                <div class="bg-white/80 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/50 p-10 hover:scale-105 transition-transform duration-300">
+                    <div class="text-5xl font-black text-purple-600 mb-4">1000L</div>
+                    <div class="text-xl font-bold text-gray-800 mb-2">Water Saved</div>
+                    <div class="text-gray-600">Per redesigned garment</div>
+                </div>
+            </div>
+            
+            <a href="{{ url_for('main.schedule_pickup') }}" class="inline-flex items-center bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black py-6 px-12 rounded-2xl shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 hover:scale-105">
+                <span class="text-xl">Start Your Transformation Journey</span>
+                <svg class="w-8 h-8 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+            </a>
+        </div>
+    </section>
+</div>
+
+<!-- Custom Animations -->
+<style>
+@keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+}
+.animate-blob {
+    animation: blob 7s infinite;
+}
+.animation-delay-2000 {
+    animation-delay: 2s;
+}
+.animation-delay-4000 {
+    animation-delay: 4s;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Scroll animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
+
+// Observe all step sections
+document.querySelectorAll('.relative.mb-32, .relative:last-child').forEach(section => {
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(50px)';
+    section.style.transition = 'all 0.8s ease-out';
+    observer.observe(section);
+});
+
+console.log('Premium How It Works page loaded successfully! 🌟');
+</script>
 {% endblock %}

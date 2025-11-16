@@ -390,6 +390,26 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* Button container fixes */
+.button-container {
+    overflow: visible !important;
+    padding-bottom: 20px;
+}
+
+/* Ensure buttons are fully visible */
+.btn, .premium-cart-btn, .premium-view-btn, .login-to-buy-btn, .out-of-stock-btn {
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: visible;
+    z-index: 10;
+    position: relative;
+}
+
+/* Card content padding fix */
+.card-content {
+    padding-bottom: 24px !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 640px) {
     .btn {
@@ -407,6 +427,13 @@
         height: 48px;
         bottom: 16px;
         right: 16px;
+    }
+    
+    /* Mobile button fixes */
+    .premium-cart-btn, .premium-view-btn, .login-to-buy-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+        min-width: 100px;
     }
 }
 
