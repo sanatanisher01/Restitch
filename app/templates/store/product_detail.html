@@ -22,27 +22,20 @@
             <!-- Product Images -->
             <div class="space-y-4">
                 <div class="aspect-w-1 aspect-h-1 bg-gray-200 rounded-2xl overflow-hidden">
-                    {% set product_images = product.get_images() %}
-                    {% if product_images and product_images[0] %}
-                        <img src="{{ product_images[0] }}" alt="{{ product.title }}" 
-                             class="w-full h-96 object-cover">
-                    {% else %}
-                        <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="{{ product.title }}" 
-                             class="w-full h-96 object-cover">
-                    {% endif %}
+                    <img src="{{ product.get_images()[0] if product.get_images() else 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }}" 
+                         alt="{{ product.title }}" 
+                         class="w-full h-96 object-cover" 
+                         onerror="this.src='https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';">
                 </div>
                 
                 <!-- Thumbnail Images -->
                 <div class="grid grid-cols-4 gap-4">
                     {% for i in range(4) %}
                     <div class="aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden cursor-pointer hover:opacity-75 transition-opacity">
-                        {% if product_images and product_images[0] %}
-                            <img src="{{ product_images[0] }}" alt="Product view {{ i+1 }}" 
-                                 class="w-full h-20 object-cover">
-                        {% else %}
-                            <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Product view {{ i+1 }}" 
-                                 class="w-full h-20 object-cover">
-                        {% endif %}
+                        <img src="{{ product.get_images()[0] if product.get_images() else 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80' }}" 
+                             alt="Product view {{ i+1 }}" 
+                             class="w-full h-20 object-cover" 
+                             onerror="this.src='https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80';">
                     </div>
                     {% endfor %}
                 </div>
@@ -216,14 +209,10 @@
                 {% for related_product in related_products %}
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover group">
                     <div class="relative overflow-hidden">
-                        {% set related_product_images = related_product.get_images() %}
-                        {% if related_product_images and related_product_images[0] %}
-                            <img src="{{ related_product_images[0] }}" alt="{{ related_product.title }}" 
-                                 class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
-                        {% else %}
-                            <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="{{ related_product.title }}" 
-                                 class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
-                        {% endif %}
+                        <img src="{{ related_product.get_images()[0] if related_product.get_images() else 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80' }}" 
+                             alt="{{ related_product.title }}" 
+                             class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" 
+                             onerror="this.src='https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80';">
                         <div class="absolute top-4 left-4">
                             <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
                                 Upcycled
